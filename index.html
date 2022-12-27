@@ -1,0 +1,176 @@
+<html>
+    <head>
+        <title>Código Secreto</title>
+        <meta charset="utf-8">
+        <style>
+            
+            body {
+                background: #000000;
+            }
+
+            .board {
+                text-align: center;
+            }
+
+            .square {
+                width: 120px;
+                height: 120px;
+                background-color: #e9e9e9;
+                border-radius: 10px;
+                margin: 5px;
+                display: inline-block;
+                background-size: 50px;
+                background-repeat: no-repeat;
+                background-position: center;
+                font-family: 'Montserrat', sans-serif;
+                color: black;
+                text-align: center;
+                font-weight: 600;
+				white-space: nowrap;
+            }
+
+            .blue {
+                background-color: #3498db;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --%3E%3Cpath d='M512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z' fill='%2373c0f2'/%3E%3C/svg%3E");;
+            }
+
+            .red {
+                background-color: #e74c3c;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3C!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --%3E%3Cpath d='M384 32C419.3 32 448 60.65 448 96V416C448 451.3 419.3 480 384 480H64C28.65 480 0 451.3 0 416V96C0 60.65 28.65 32 64 32H384zM384 80H64C55.16 80 48 87.16 48 96V416C48 424.8 55.16 432 64 432H384C392.8 432 400 424.8 400 416V96C400 87.16 392.8 80 384 80z' fill='%23f57f73'/%3E%3C/svg%3E");
+            }
+
+            .black {
+                background-color: #2e2a2a;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --%3E%3Cpath d='M416 398.9c58.5-41.1 96-104.1 96-174.9C512 100.3 397.4 0 256 0S0 100.3 0 224c0 70.7 37.5 133.8 96 174.9c0 .4 0 .7 0 1.1v64c0 26.5 21.5 48 48 48h48V464c0-8.8 7.2-16 16-16s16 7.2 16 16v48h64V464c0-8.8 7.2-16 16-16s16 7.2 16 16v48h48c26.5 0 48-21.5 48-48V400c0-.4 0-.7 0-1.1zM224 256c0 35.3-28.7 64-64 64s-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64zm128 64c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64z'/%3E%3C/svg%3E");
+            }
+			
+			.start {
+				margin-top: 15px;
+			}
+
+        </style>
+    </head>
+    <body>
+        <div class="board">
+            <div class="row">
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+              <div class="square"></div>
+            </div>
+            <div class="row">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+            </div>
+            <div class="row">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+            </div>
+            <div class="row">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+            </div>
+            <div class="row">
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+                <div class="square"></div>
+            </div>
+            <button class="start" onclick="calculate_board();this.setAttribute('style', 'display: none');">Começar Jogo</button>
+          </div>
+
+          <script>
+            function randomIntFromInterval(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min)
+            }
+
+            function shuffle(array) {
+                let currentIndex = array.length, randomIndex;
+
+                // While there remain elements to shuffle.
+                while (currentIndex != 0) {
+
+                    // Pick a remaining element.
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+
+                    // And swap it with the current element.
+                    [array[currentIndex], array[randomIndex]] = [
+                    array[randomIndex], array[currentIndex]];
+                }
+
+                return array;
+            }
+
+            function calculate_board() {
+
+                number_of_spies = randomIntFromInterval(8, 9);
+
+                var squares = document.getElementsByClassName("square");
+                squares_arr = []
+
+                for (var i = 0; i < squares.length; i++) { // Coloca ID nos squares e preenche a array
+                    squares_arr.push(i)
+                    squares[i].innerHTML = "" // Limpa a palavra
+                    squares[i].setAttribute("id", i);
+                }
+
+                // Preto
+                square = squares_arr[Math.floor(Math.random()*squares_arr.length)];
+                squares[square].classList.add("black");
+                squares_arr = squares_arr.filter(function(item) {
+                        return item !== square
+                })
+
+                // Distribui entre azul e vermelho
+                current_color = 'blue';
+                for (var i = 0; i < number_of_spies*2; i++) { // Coloca ID nos squares e preenche a array
+
+                    square = squares_arr[Math.floor(Math.random()*squares_arr.length)]; // Pega um ID aleatório
+
+                    // Pinta
+                    if(current_color == 'blue') {
+                        squares[square].classList.add("blue");
+                        current_color = 'red';
+                    } else if(current_color == 'red') {
+                        squares[square].classList.add("red");
+                        current_color = 'blue';
+                    }
+
+                    // Retira do array
+                    squares_arr = squares_arr.filter(function(item) {
+                        return item !== square
+                    })
+
+                }
+
+            }
+
+            function choose_words() {
+                var words = ["ABELHA", "AGULHA", "AMERICA", "ARRANHACÉU", "BALEIA", "BAÚ", "ABÓBORA", "ALEMANHA", "ANÃO", "ASSINATURA", "BANANA", "BEIJING", "ACORDO", "ALFABETO", "ANEL", "ASTRO", "BANCO", "BERLIM", "ACRE", "ALGODÃO", "ANJO", "ATLÂNTIDA", "BANDA", "BERMUDA", "ADULTO", "ALIENÍGENA", "ANTARTIDA", "AUSTRÁLIA", "BANHEIRO", "BÍBLIA", "ADVOGADO", "ALMA", "APRENDIZ", "AVIÃO", "BAR", "BLOCO", "ÁFRICA", "ALPES", "AR", "BACIA", "BARCO", "BOCA", "AGENTE", "ALVO", "ARANHA", "BALA", "BARRA", "BODE", "ÁGUA", "AMAZONAS", "ARCO", "BALANÇO", "BATERIA", "BOLA", "ÁGUIA", "AMBULÂNCIA", "ARQUIVO", "BALÃO", "BATIDA", "BOLO", "SEDE", "SOM", "TEMPLO", "TORRE", "TUBO", "VERÃO", "SELA", "SOMBRA", "TEMPO", "TORTA", "UNHA", "VERDE", "SELO", "SONHO", "TÊNIS", "TRAMA", "UNICÓRNIO", "VERME", "SENTENÇA", "SORTE", "TERNO", "TRAVE", "URSO", "VESTIDO", "SERVIDOR", "SORVETE", "TERRA", "TREM", "VÁCUO", "VIAGEM", "SEXTA", "TANQUE", "TIRO", "TRIÂNGULO", "VARA", "VIDA", "SINO", "TEATRO", "TOCHA", "TRILHA", "VASO", "VIDRO", "SOL", "TEIA", "TOCO", "TROCO", "VELA", "VIOLÃO", "SOLA", "TELA", "TOMADA", "TRONCO", "VENENO", "VOLANTE", "SOLDADO", "TELESCÓPIO", "TÓQUIO", "TUBARÃO", "VENTO", "VOLTA", "CHUVA", "COBRE", "CONEXÃO", "CORRENTE", "DENTE", "DRAGÃO", "CHUVEIRO", "CÓDIGO", "CONTA", "CORTE", "DIA", "EDIFÍCIO", "CICATRIZ", "COELHO", "CONTO", "COSTA", "DIAFRAGMA", "EGITO", "CIENTISTA", "COLA", "CONTRATO", "CRAVO", "DIAMANTE", "ELEFANTE", "CIGANO", "COLERA", "CORAÇÃO", "CRÉDITO", "DINOSSAURO", "ELEMENTO", "CINTO", "COLHER", "CORAL", "CRUZ", "DIREITA", "EMBAIXADA", "CIRCUITO", "COLUNA", "CORDA", "CUPIM", "DIREITO", "ENCONTRO", "CÍRCULO", "COMPOSTO", "COROA", "CURA", "DIVISÃO", "ENFERMEIRA", "CLUBE", "COMPRIMIDO", "CORPO", "DADO", "DOCE", "ESCALA", "COBERTURA", "CONCERTO", "CORREIO", "DEDO", "DOUTOR", "ESCOLA", "MÍDIA", "MOSCOU", "ÓLEO", "PANELA", "PATA", "PERU", "MILIONÁRIO", "MUDA", "OLHO", "PAPEL", "PÁTIO", "PIANO", "MINA", "MUDANÇA", "OLIMPO", "PARADA", "PAUTA", "PILOTO", "MISSÃO", "MULA", "ONDA", "PÁRA-QUEDAS", "PÉ", "PIMENTA", "MOCHILA", "NEGATIVO", "ÓPERA", "PAREDE", "PEÃO", "PINCEL", "MODELO", "NEVE", "ORDEM", "PARQUE", "PEÇA", "PINGUIM", "MOLE", "NINJA", "ÓRGÃO", "PARTIDA", "PEDRA", "PINO", "MORCEGO", "NOITE", "OURO", "PASSADO", "PEIXE", "PINTA", "MORRO", "NOTA", "PACÍFICO", "PÁSSARO", "PELO", "PIRÂMIDE", "MORTE", "NOVELA", "PALHA", "PASSO", "PENHASCO", "PIRATA", "ESCORPIÃO", "FALCÃO", "FILME", "FÓSFORO", "GATO", "GRAVATA", "ESPAÇO", "FANTASMA", "FIO", "FRANÇA", "GELO", "GRÉCIA", "ESPIÃO", "FÉ", "FITA", "FRIO", "GÊMEOS", "GUERRA", "ESPINHA", "FECHADURA", "FLAUTA", "FURO", "GÊNIO", "GUIA", "ESQUERDA", "FEIRA", "FLORESTA", "GALO", "GERME", "HELICÓPTERO", "ESTÁDIO", "FERRADURA", "FLUXO", "GANCHO", "GIGANTE", "HERÓI", "ESTADO", "FERRO", "FOGO", "GARFO", "GOTA", "HIMALAIA", "ESTRELA", "FICHA", "FOLHA", "GAROTO", "GRADE", "HORTELÃ", "EUROPA", "FIGURA", "FONTE", "GARRAFA", "GRAMA", "HOSPITAL", "FACA", "FILA", "FORÇA", "GÁS", "GRAU", "HOTEL", "BOLSA", "BROTO", "CAIXA", "CANO", "CARTÃO", "CENTAURO", "BOMBA", "BRUXA", "CALÇA", "CANTO", "CASCA", "CENTRO", "BORDÃO", "BÚFALO", "CALHA", "CAPA", "CASCO", "CERA", "BOTA", "BURACO", "CAMA", "CAPITAL", "CASSINO", "CERCA", "BOTÃO", "CABEÇA", "CAMINHÃO", "CAPUZ", "CAUDA", "CHAVE", "BRAÇO", "CABO", "CAMINHO", "CARA", "CAVALEIRO", "CHICLETE", "BRASÍLIA", "CACHO", "CAMPO", "CARGA", "CAVALO", "CHIFRE", "BRIGADEIRO", "CACHORRO", "CANADÁ", "CARO", "CEDO", "CHINA", "BRILHANTE", "CADEIRA", "CANELA", "CARRO", "CELA", "CHOCOLATE", "BRINCO", "CAFÉ", "CANGURU", "CARTA", "CENOURA", "CHURRASCO", "IGREJA", "LAÇO", "LESTE", "LONDRES", "MANCHA", "MASTRO", "ILHA", "LADRÃO", "LIBRA", "LUA", "MANGA", "MATO", "ÍNDIA", "LAMA", "LIGA", "LUTADOR", "MANGUEIRA", "MEDIDA", "INGLATERRA", "LANCE", "LIMA", "LUVA", "MÃO", "MEIA", "INSCRIÇÃO", "LARANJA", "LIMÃO", "LUZ", "MÁQUINA", "MEIO", "JANEIRO", "LAVA", "LIMUSINE", "MAÇÃ", "MARCA", "MEL", "JOGO", "LAVADORA", "LÍNGUA", "MACACO", "MARCHA", "MERCÚRIO", "JÚPITER", "LEÃO", "LINHA", "MAGIA", "MARFIM", "MÊS", "JUSTA", "LEITO", "LIXA", "MAL", "MÁRMORE", "MÉXICO", "LABORATÓRIO", "LESMA", "LOJA", "MAMUTE", "MASSA", "MICROSCÓPIO", "PISO", "POLO", "PRESUNTO", "RÁDIO", "REDE", "ROLO", "PISTOLA", "POLVO", "PRIMAVERA", "RAINHA", "REGISTRO", "ROMA", "PLANO", "PONTE", "PRINCESA", "RAIO", "REI", "ROSA", "PLANTA", "PONTO", "PROFESSOR", "RAIZ", "RELÓGIO", "ROSCA", "PLÁSTICO", "PORCA", "PROGRAMA", "RAMO", "REVOLUÇÃO", "RUSSO", "PÓ", "PORTO", "PROVA", "RASCUNHO", "RIO", "SAL", "PODER", "POSTO", "QUADRA", "RATO", "ROBÔ", "SAPATO", "POLEGAR", "PRAIA", "QUADRADO", "REAL", "RODA", "SATÉLITE", "POLÍCIA", "PRATO", "QUADRO", "RECIFE", "RODADA", "SATURNO", "POLÍTICA", "PRESENTE", "QUARTO", "RECREIO", "ROLETA", "SEDA"]
+                let shuffled_words = shuffle(words);
+
+                let squares = document.getElementsByClassName("square");
+                let palavrasescolhidas = shuffled_words.slice(0, squares.lenght);
+
+                for (var i = 0; i < squares.length; i++) { // Coloca ID nos squares e preenche a array
+                    squares[i].innerHTML = palavrasescolhidas[i];
+                }
+            }
+
+            choose_words();
+
+          </script>
+    </body>
+</html>
